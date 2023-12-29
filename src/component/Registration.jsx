@@ -1,35 +1,55 @@
 import { useState } from "react";
+import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import 'react-phone-number-input/style.css'
+import 'react-phone-number-input/style.css';
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 
 export function Registration() {
- const [firstName, setFirstName] = useState("");
- const [middleName, setMiddleName] = useState("");
- const [lastName, setLastName] = useState("");
- const [email, setEmail] = useState("");
- const [contact, setContact] = useState("");
-//  const [passportNumber, setPassportNumber] = useState("");
-//  const [confirmPassportNumber, setConfirmPassportNumber] = useState("");
- const [gender, setGender] = useState("");
- const [password, setPassword] = useState("");
- const [confirmPassword, setConfirmPassword] = useState("");
- const [validationMsg, setValidationMsg] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    contact: "",
+    gender: "",
+    password: "",
+    confirmPassword: "",
+  });
 
- const handleSubmit = (e) => {
+  const [validationMsg, setValidationMsg] = useState("");
+
+  const handleChange = (fieldName, value) => {
+    setFormData({
+      ...formData,
+      [fieldName]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       setValidationMsg("Passwords do not match");
-    //else if (passportNumber !== confirmPassportNumber) {
-    //   setValidationMsg("Passport Numbers do not match");
     } else {
       setValidationMsg("");
-      // Proceed with Registration Logic
+      // Handle form submission with formData
+      console.log("Form submitted:", formData);
+      register(); // Call the register function after validation
     }
- };
+  };
 
- return (
+  const register = () => {
+    console.log(formData);
+    let url = `http://localhost:8080/register`;
+    axios.post(url, formData).then((response) => {
+      if (response.data.status)
+        alert("Done!");
+      else
+        alert("Not done!");
+    });
+  };
+
+  return (
     <div id="regi">
       <Container id="reg">
         <Row>
@@ -43,10 +63,10 @@ export function Registration() {
               <Form.Group className="mt-4">
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
-                 type="text"
-                 placeholder="Enter First name"
-                 value={firstName}
-                 onChange={(e) => setFirstName(e.target.value)}
+                  type="text"
+                  placeholder="Enter First name"
+                  value={formData.firstName}
+                  onChange={(e) => handleChange("firstName", e.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -54,10 +74,10 @@ export function Registration() {
               <Form.Group className="mt-4">
                 <Form.Label>Middle Name</Form.Label>
                 <Form.Control
-                 type="text"
-                 placeholder="Enter Middle name"
-                 value={middleName}
-                 onChange={(e) => setMiddleName(e.target.value)}
+                  type="text"
+                  placeholder="Enter Middle name"
+                  value={formData.middleName}
+                  onChange={(e) => handleChange("middleName", e.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -65,10 +85,10 @@ export function Registration() {
               <Form.Group className="mt-4">
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
-                 type="text"
-                 placeholder="Enter Last name"
-                 value={lastName}
-                 onChange={(e) => setLastName(e.target.value)}
+                  type="text"
+                  placeholder="Enter Last name"
+                  value={formData.lastName}
+                  onChange={(e) => handleChange("lastName", e.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -78,10 +98,10 @@ export function Registration() {
               <Form.Group className="mt-4">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
-                 type="email"
-                 placeholder="name@example.com"
-                 value={email}
-                 onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  placeholder="name@example.com"
+                  value={formData.email}
+                  onChange={(e) => handleChange("email", e.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -90,38 +110,13 @@ export function Registration() {
               <Form.Group className="mt-4">
                 <Form.Label>Contact</Form.Label>
                 <PhoneInput
-                 placeholder="Enter phone number"
-                 value={contact}
-                 onChange={setContact}
+                  placeholder="Enter phone number"
+                  value={formData.contact}
+                  onChange={(value) => handleChange("contact", value)}
                 />
               </Form.Group>
             </Col>
           </Row>
-
-          {/* <Row>
-            <Col lg="6">
-              <Form.Group className="mt-4">
-                <Form.Label>Passport Number</Form.Label>
-                <Form.Control
-                 type="text"
-                 placeholder="Enter Passport Number"
-                 value={passportNumber}
-                 onChange={(e) => setPassportNumber(e.target.value)}
-                />
-              </Form.Group>
-            </Col>
-            <Col lg="6">
-              <Form.Group className="mt-4">
-                <Form.Label>Confirm Passport Number</Form.Label>
-                <Form.Control
-                 type="text"
-                 placeholder="Re-enter Passport Number"
-                 value={confirmPassportNumber}
-                 onChange={(e) => setConfirmPassportNumber(e.target.value)}
-                />
-              </Form.Group>
-            </Col> 
-           </Row> */}
 
           <Row>
             <Col lg="6">
@@ -129,31 +124,31 @@ export function Registration() {
                 <Form.Label>Gender</Form.Label>
                 <br />
                 <Form.Check
-                 inline
-                 label="Male"
-                 name="group1"
-                 type="radio"
-                 id="r1"
-                 checked={gender === "male"}
-                 onChange={() => setGender("male")}
+                  inline
+                  label="Male"
+                  name="group1"
+                  type="radio"
+                  id="r1"
+                  checked={formData.gender === "male"}
+                  onChange={() => handleChange("gender", "male")}
                 />
                 <Form.Check
-                 inline
-                 label="Female"
-                 name="group1"
-                 type="radio"
-                 id="r2"
-                 checked={gender === "female"}
-                 onChange={() => setGender("female")}
+                  inline
+                  label="Female"
+                  name="group1"
+                  type="radio"
+                  id="r2"
+                  checked={formData.gender === "female"}
+                  onChange={() => handleChange("gender", "female")}
                 />
                 <Form.Check
-                 inline
-                 label="Other"
-                 name="group1"
-                 type="radio"
-                 id="r1"
-                 checked={gender === "other"}
-                 onChange={() => setGender("other")}
+                  inline
+                  label="Other"
+                  name="group1"
+                  type="radio"
+                  id="r3"
+                  checked={formData.gender === "other"}
+                  onChange={() => handleChange("gender", "other")}
                 />
               </Form.Group>
             </Col>
@@ -164,10 +159,10 @@ export function Registration() {
               <Form.Group className="mt-4">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
-                 type="password"
-                 placeholder="Enter password"
-                 value={password}
-                 onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  placeholder="Enter password"
+                  value={formData.password}
+                  onChange={(e) => handleChange("password", e.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -175,10 +170,10 @@ export function Registration() {
               <Form.Group className="mt-4">
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control
-                 type="password"
-                 placeholder="Re-enter password"
-                 value={confirmPassword}
-                 onChange={(e) => setConfirmPassword(e.target.value)}
+                  type="password"
+                  placeholder="Re-enter password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => handleChange("confirmPassword", e.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -186,7 +181,7 @@ export function Registration() {
 
           <Row>
             <Col lg="12" className="mt-4">
-              <Button type="submit" id="rsubmit" >
+              <Button type="submit" id="rsubmit">
                 Register
               </Button>
               <br /><br />
@@ -196,5 +191,5 @@ export function Registration() {
         {validationMsg && <p>{validationMsg}</p>}
       </Container>
     </div>
- );
+  );
 }
