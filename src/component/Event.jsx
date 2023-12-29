@@ -1,6 +1,6 @@
 import React from 'react';
 import './event.css'; // Assuming you have a CSS file for styling
-import calender from './images/calender.jpg';
+import calender from './images/calender.png';
 // import location from './images/location.png';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faSomeIcon } from '@fortawesome/free-solid-svg-icons';
