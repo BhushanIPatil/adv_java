@@ -3,15 +3,16 @@ import { Container } from 'react-bootstrap';
 import { Carousel } from "react-bootstrap";
 
 import './footer.css';
+import './style.css';
 import cricket1 from './images/cricket1.jpg';
-import football2 from './images/football2.jpg';
+import football2 from './images/football2.jpg'
 import basketball3 from './images/basketball3.jpg';
 
 
 export function Home() {
   return (
     <div className="home-page">
-    <Container expand="lg" className="home-container"> {/* Apply the new class here */}
+    <Container expand="lg" className="home-container"> 
        <header id="homehead">
          
        </header>
@@ -44,11 +45,8 @@ export function Home() {
       </Carousel>
       </div>
       </>
-       {/* <Input></Input> */}
-       {/* <Card1></Card1> */}
     </Container>
+
     </div>
   );
 }
-
-

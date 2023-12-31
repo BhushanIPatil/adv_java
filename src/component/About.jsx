@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-// import { Carousel } from "react-bootstrap";
+
 
 import './footer.css';
 import aboutbanner from './images/aboutbanner.jpg';
@@ -14,7 +14,7 @@ import Bhushan from './images/Bhushan.png';
 export function About() {
     return (
         <div className="about-page">
-            <Container expand="lg" className="home-container"> {/* Apply the new class here */}
+            <Container expand="lg" className="home-container"> 
 
             
                 <div class="image-container-about">
@@ -100,7 +100,6 @@ export function About() {
                     <br />
                     <br />
                 </div>
-
 
             </Container>
         </div>

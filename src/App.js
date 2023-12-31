@@ -1,33 +1,37 @@
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
-import { Home } from './component/Home';
 import { Navigationbar } from './component/Navigationbar';
 import { Footer } from './component/Footer';
-import { Registration } from './component/Registration';
-import { Login } from './component/Login';
+import { Home } from './component/Home';
+import { Result } from './component/Result';
 import { About } from './component/About';
-import { Event } from './component/Event';
+import { AddEvent } from './component/AddEvent';
+import ShowEvent from './component/ShowEvent';
+import ShowEventAdmin from './component/ShowEventAdmin';
+import EditEvent from './component/EditEvent';
+import { Registration } from './component/Registration';
+import Admin from './component/Admin';
+import Login from './component/Login'; // Import Login component
+import AdminLogin from './component/AdminLogin';
 
 function App() {
   return (
     <BrowserRouter>
-      <Navigationbar id="navbar"></Navigationbar>
+      <Navigationbar id="navbar" />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/" element={<Footer />} />
-
-       
-      <Route path='/registration' element={<Registration/>}></Route>
-      {/* <Route path='/' element={<Home/>}></Route> */}
-      {/* <Route path='/services' element={<Services/>}></Route> */}
-      <Route path='/about' element={<About/>}></Route>
-      <Route path='/event' element={<Event/>}></Route>
-      <Route path='/login' element={<Login/>}></Route>
-      {/* <Route path='/product' element={<Product/>}></Route> */}
-    
-
+        <Route path="/news" element={<Result />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/addEvent" element={<AddEvent />} />
+        <Route path='/registration' element={<Registration/>} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/showEvent" element={<ShowEvent />} />
+        <Route path="/showEventAdmin" element={<ShowEventAdmin />} />
+        <Route path="/editevent/:eventId" element={<EditEvent />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/adminLogin" element={<AdminLogin />} />
       </Routes>
-      <Footer></Footer>
+      <Footer />
     </BrowserRouter>
   );
 }

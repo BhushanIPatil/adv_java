@@ -1,62 +1,112 @@
 import React, { useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
-import './Login.css';
+import axios from 'axios';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
- const [error, setError] = useState('');
+  const [userFormData, setUserFormData] = useState({
+    email: '',
+    password: '',
+  });
 
- const handleSubmit = (e) => {
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleUserChange = (fieldName, value) => {
+    setUserFormData({
+      ...userFormData,
+      [fieldName]: value,
+    });
+  };
+
+  const handleUserSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateEmail(email)) {
-      setError('Invalid email.');
+    if (!userFormData.email || !userFormData.password) {
+      setError('Please enter both email and password for user login.');
       return;
     }
 
-    if (!validatePassword(password)) {
-      setError('Invalid password. Password should be at least 6 characters long.');
-      return;
+    try {
+      const response = await axios.post('http://localhost:8080/login', userFormData);
+      handleLoginResponse(response);
+    } catch (error) {
+      handleLoginError(error);
     }
+  };
 
-    // Proceed with login logic
-    console.log('Logging in with', email, 'and', password);
- };
-
- const validateEmail = (email) => {
-    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return re.test(email);
- };
-
- const validatePassword = (password) => {
-    return password.length >= 6;
- };
-
- return (
-    <div className="login-container" id="logdiv">
-        <Row>
-          <Col lg="3"></Col>
-          <Col lg="6" id="logcol">
-      <h1 className="login-title"  class="logtitle">Login</h1>
-      <form onSubmit={handleSubmit} className="login-form">
-        <label className="login-label"  class="logg">
-          Email:
-          <input className="login-input" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <br />
-        <label className="login-label" class="logg">
-          Password:
-          <input className="login-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <br />
-        <button className="login-button" type="submit" >Login</button >
-      </form>
-      {error && <p className="login-error">{error}</p>}
-      </Col>
-      <Col lg="3"></Col>
-      </Row>
+  const handleLoginResponse = (response) => {
+    console.log('Handle Login Response:', response);
+    if (response.data.status) {
       
+      localStorage.setItem('token', response.data.token);
+      
+      navigate('/');
+    } else {
+      setError('Invalid email or password');
+      
+      alert('Invalid email or password. Please try again.');
+    }
+  };
+
+  const handleLoginError = (error) => {
+    console.error('Login error:', error);
+    setError('An error occurred during login');
+    
+    alert('An error occurred during login. Please try again.');
+  };
+
+  return (
+    <div>
+      <Container>
+        <Row>
+          <Col lg="12" className="mt-4">
+            <h2>Login</h2>
+          </Col>
+        </Row>
+       
+        <Form onSubmit={handleUserSubmit}>
+          <Row>
+            <Col lg="6">
+              <Form.Group className="mt-4">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="name@example.com"
+                  value={userFormData.email}
+                  onChange={(e) => handleUserChange('email', e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="6">
+              <Form.Group className="mt-4">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  value={userFormData.password}
+                  onChange={(e) => handleUserChange('password', e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="12" className="mt-4">
+              <Button type="submit">User Login</Button>
+            </Col>
+          </Row>
+        </Form>
+
+        {error && <p>{error}</p>}
+      </Container>
     </div>
- );
+  );
 };
+
+export default Login;
+
+
+
+

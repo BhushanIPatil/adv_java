@@ -1,11 +1,8 @@
 import React from 'react';
-import './event.css'; // Assuming you have a CSS file for styling
+import './event.css'; 
 import calender from './images/calender.png';
-// import location from './images/location.png';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faSomeIcon } from '@fortawesome/free-solid-svg-icons';
 
-export function Event() {
+export function EventOld() {
   return (
     <div className="event-container">
       <h3 className="year">2023</h3>
@@ -26,7 +23,7 @@ export function Event() {
           </div>
 
           <div className="event-timing">
-          {/* <FontAwesomeIcon icon="fa-solid fa-location-dot" /> */}
+          
           <img src={calender} className="Img d-block w-100" alt="First slide" /> 10:00 am 
           </div>
         </div>
@@ -121,8 +118,6 @@ export function Event() {
           </div>
         </div>
       </div>
-
-      {/* Additional events go here */}
 
     </div>
   );

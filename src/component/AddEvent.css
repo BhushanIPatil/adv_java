@@ -1,0 +1,84 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #218bbb;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #218bbb;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1b6ca8;
+}
+
+Link {
+  display: block;
+  text-align: center;
+  color: #218bbb;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+Link:hover {
+  color: #1b6ca8;
+}
+
+.goBack-button{
+  text-decoration: none;
+  margin-left: 20px;
+  padding: 10px;
+  background-color: #218bbb;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.Add-Event-button{
+  background-color: #00C853;
+  border-radius: 10px;
+}
+
+.Add-Event-button:hover{
+  background-color: #2E7D32;
+}
+
+.goBack-button:hover{
+  background-color: #1565C0;
+}

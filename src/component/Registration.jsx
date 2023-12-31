@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import 'react-phone-number-input/style.css';
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import "./Registration.css";
 
 export function Registration() {
   const [formData, setFormData] = useState({
@@ -28,24 +28,35 @@ export function Registration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.contact ||
+      !formData.gender ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      setValidationMsg("Please fill in all required fields.");
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setValidationMsg("Passwords do not match");
-    } else {
-      setValidationMsg("");
-      // Handle form submission with formData
-      console.log("Form submitted:", formData);
-      register(); // Call the register function after validation
+      return;
     }
+
+    setValidationMsg("");
+    console.log("Form submitted:", formData);
+    register();
   };
 
   const register = () => {
     console.log(formData);
     let url = `http://localhost:8080/register`;
     axios.post(url, formData).then((response) => {
-      if (response.data.status)
-        alert("Done!");
-      else
-        alert("Not done!");
+      if (response.data.status) alert("Registration Successfull!");
+      else alert("Not done!");
     });
   };
 
@@ -57,12 +68,13 @@ export function Registration() {
             <h2>Please fill the Registration Form !</h2>
           </Col>
         </Row>
-        <Form onSubmit={handleSubmit}>
+        <div className="regi-container">
+          <Form onSubmit={handleSubmit}>
           <Row>
-            <Col lg="4">
-              <Form.Group className="mt-4">
-                <Form.Label>First Name</Form.Label>
-                <Form.Control
+             <Col lg="4">
+               <Form.Group className="mt-4">
+                 <Form.Label>First Name</Form.Label>
+                 <Form.Control
                   type="text"
                   placeholder="Enter First name"
                   value={formData.firstName}
@@ -108,8 +120,8 @@ export function Registration() {
             <Col lg="2"></Col>
             <Col lg="4">
               <Form.Group className="mt-4">
-                <Form.Label>Contact</Form.Label>
-                <PhoneInput
+                <Form.Label className="contact-label">Contact</Form.Label>
+                <PhoneInput className="phone-input"
                   placeholder="Enter phone number"
                   value={formData.contact}
                   onChange={(value) => handleChange("contact", value)}
@@ -187,8 +199,9 @@ export function Registration() {
               <br /><br />
             </Col>
           </Row>
-        </Form>
-        {validationMsg && <p>{validationMsg}</p>}
+          </Form>
+          {validationMsg && <p>{validationMsg}</p>}
+        </div>
       </Container>
     </div>
   );
